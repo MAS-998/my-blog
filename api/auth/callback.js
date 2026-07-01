@@ -29,25 +29,20 @@ module.exports = async (req, res) => {
       return res.status(400).send(`GitHub OAuth 错误: ${data.error_description || data.error}`);
     }
 
-    // 把 token 传回给 Decap CMS 弹窗
+    // 把 token 传回给 Decap CMS（通过 URL hash 方式）
     res.setHeader('Content-Type', 'text/html');
     res.end(`
+      <!DOCTYPE html>
       <html>
       <body>
         <script>
-          (function() {
-            function receiveMessage(message) {
-              window.opener.postMessage(
-                'authorization:${data.access_token}:${data.scope || ''}',
-                message.origin
-              );
-              window.close();
-            }
-            window.addEventListener('message', receiveMessage, false);
-            window.opener.postMessage('authorizing:${data.access_token}', '*');
-          })();
+          var data = {
+            token: '${data.access_token}',
+            provider: 'github'
+          };
+          window.opener.postMessage(data, '*');
+          window.close();
         </script>
-        <p>授权成功，正在关闭...</p>
       </body>
       </html>
     `);
