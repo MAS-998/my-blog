@@ -8,8 +8,11 @@ module.exports = async (req, res) => {
     return res.status(400).send('缺少授权码');
   }
 
+  if (!clientId || !clientSecret) {
+    return res.status(500).send('OAuth 环境变量未配置');
+  }
+
   try {
-    // 用授权码换取 access token
     const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
       headers: {
@@ -29,24 +32,26 @@ module.exports = async (req, res) => {
       return res.status(400).send(`GitHub OAuth 错误: ${data.error_description || data.error}`);
     }
 
-    // 把 token 传回给 Decap CMS（通过 URL hash 方式）
     res.setHeader('Content-Type', 'text/html');
     res.end(`
       <!DOCTYPE html>
       <html>
       <body>
         <script>
-          var data = {
-            token: '${data.access_token}',
-            provider: 'github'
-          };
-          window.opener.postMessage(data, '*');
-          window.close();
+          (function() {
+            var origin = window.location.origin;
+            window.opener.postMessage(
+              'authorization:${data.access_token}:${data.scope || ""}',
+              origin
+            );
+            window.close();
+          })();
         </script>
+        <p>授权成功，请关闭此窗口</p>
       </body>
       </html>
     `);
   } catch (err) {
-    res.status(500).send(`服务器错误: ${err.message}`);
+    res.status(500).send('服务器错误: ' + err.message);
   }
 };
