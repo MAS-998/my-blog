@@ -4,6 +4,7 @@ backend:
   branch: master
   site_domain: my-blog-two-blue.vercel.app
   base_url: https://my-blog-two-blue.vercel.app
+  auth_endpoint: api/auth
 
 media_folder: source/_posts
 public_folder: /source/_posts
