@@ -1,0 +1,23 @@
+backend:
+  name: github
+  repo: MAS-998/my-blog
+  branch: master
+  site_domain: my-blog-two-blue.vercel.app
+  base_url: https://my-blog-two-blue.vercel.app
+
+media_folder: source/_posts
+public_folder: /source/_posts
+
+collections:
+  - name: "posts"
+    label: "日记"
+    label_singular: "日记"
+    folder: "source/_posts"
+    create: true
+    slug: "{{year}}{{month}}{{day}}-{{slug}}"
+    sort: "date:desc"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "发布日期", name: "date", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss" }
+      - { label: "标签", name: "tags", widget: "list", required: false }
+      - { label: "正文", name: "body", widget: "markdown" }
