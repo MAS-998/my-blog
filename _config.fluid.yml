@@ -1,0 +1,58 @@
+# 主题配置 — 简约日记风
+# 完整文档: https://hexo.fluid-dev.com/docs/guide/
+
+# 导航栏
+navbar:
+  blog_title: "我的日记"
+  menu:
+    - { key: "首页", link: "/", icon: "iconfont icon-home-fill" }
+    - { key: "归档", link: "/archives/", icon: "iconfont icon-archive-fill" }
+    - { key: "关于", link: "/about/", icon: "iconfont icon-user-fill" }
+
+# 首页
+index:
+  banner_strategy: "auto"   # 自动轮换背景图
+  slogan:
+    enable: false           # 不显示大标语，更简洁
+
+# 文章页
+post:
+  banner:
+    type: img               # 文章顶图，没有就显示默认
+  meta:
+    author:
+      enable: true
+    date:
+      enable: true
+    wordcount:
+      enable: true
+    readtime:
+      enable: true
+  prev_next:
+    enable: true
+  copyright:
+    enable: false           # 不显示版权声明
+
+# 归档页
+archive:
+  banner:
+    type: default
+
+# 页脚
+footer:
+  content: "✍️ 记录生活，随便写写"
+  statistics:
+    enable: true
+
+# 图片懒加载
+lazyload:
+  loading_img: /img/loading.gif
+  only_post: true           # 仅在文章页启用
+
+# 打赏
+reward:
+  enable: false
+
+# 评论（暂时不启用）
+comments:
+  enable: false
